@@ -25,11 +25,11 @@ let currentCommentPoints = 0;
 // Variables para el sistema de autenticación
 let currentUser = null;
 let userCredentials = {
-    rocio: { name: 'Rocío', password: 'rocio123', color: '#e74c3c' },
-    javiera: { name: 'Javiera', password: 'javiera123', color: '#9b59b6' },
-    'juan-felipe': { name: 'Juan Felipe', password: 'juan123', color: '#3498db' },
-    daniel: { name: 'Daniel', password: 'daniel123', color: '#f39c12' },
-    alvaro: { name: 'Alvaro', password: 'alvaro123', color: '#27ae60' }
+    rocio: { name: 'Rocío', password: 'nueva_clave_rocio', color: '#e74c3c' },
+    javiera: { name: 'Javiera', password: 'nueva_clave_javiera', color: '#9b59b6' },
+    'juan-felipe': { name: 'Juan Felipe', password: 'nueva_clave_juan', color: '#3498db' },
+    daniel: { name: 'Daniel', password: 'nueva_clave_daniel', color: '#f39c12' },
+    alvaro: { name: 'Alvaro', password: 'nueva_clave_alvaro', color: '#27ae60' }
 };
 
 // Wow effects variables
@@ -289,6 +289,7 @@ async function addPoints(memberId, points = 1, comment = '') {
                 updateStats();
                 updateDetailedStats();
                 updateRankings();
+                updateLeaders();
                 
                 // Mostrar notificación si está habilitado
                 if (settings.showNotifications) {
@@ -347,6 +348,7 @@ async function subtractPoints(memberId, points = 1, comment = '') {
                 updateStats();
                 updateDetailedStats();
                 updateRankings();
+                updateLeaders();
                 
                 // Mostrar notificación si está habilitado
                 if (settings.showNotifications) {
@@ -877,6 +879,7 @@ async function loadDataFromAPI() {
         updateStats();
         updateDetailedStats();
         updateRankings();
+        updateLeaders();
         updateHistoryDisplay();
         
         console.log('✅ Todos los datos cargados correctamente');
@@ -1047,6 +1050,114 @@ function clearLocalStorage() {
     localStorage.removeItem('rociPointsSettings');
     console.log('localStorage limpiado');
     location.reload();
+}
+
+// Función para calcular nivel basado en puntos
+function calculateLevel(points) {
+    if (points < 0) return 'Principiante';
+    if (points < 50) return 'Novato';
+    if (points < 100) return 'Intermedio';
+    if (points < 200) return 'Avanzado';
+    if (points < 500) return 'Experto';
+    return 'Maestro';
+}
+
+// Función para calcular líder del mes
+function calculateMonthlyLeader() {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+    
+    // Filtrar entradas del mes actual
+    const monthlyEntries = history.filter(entry => {
+        const entryDate = new Date(entry.timestamp);
+        return entryDate.getMonth() === currentMonth && entryDate.getFullYear() === currentYear;
+    });
+    
+    // Calcular puntos por miembro en el mes
+    const monthlyScores = {};
+    teamMembers.forEach(member => {
+        monthlyScores[member.id] = 0;
+    });
+    
+    monthlyEntries.forEach(entry => {
+        if (entry.type === 'add') {
+            monthlyScores[entry.memberId] += entry.points;
+        } else {
+            monthlyScores[entry.memberId] -= entry.points;
+        }
+    });
+    
+    // Encontrar el líder del mes
+    let monthlyLeader = null;
+    let maxMonthlyScore = -Infinity;
+    
+    Object.keys(monthlyScores).forEach(memberId => {
+        if (monthlyScores[memberId] > maxMonthlyScore) {
+            maxMonthlyScore = monthlyScores[memberId];
+            monthlyLeader = memberId;
+        }
+    });
+    
+    return monthlyLeader ? teamMembers.find(m => m.id === monthlyLeader) : null;
+}
+
+// Función para calcular líder histórico
+function calculateHistoricalLeader() {
+    // Calcular puntos totales ganados por cada miembro
+    const historicalScores = {};
+    teamMembers.forEach(member => {
+        historicalScores[member.id] = 0;
+    });
+    
+    history.forEach(entry => {
+        if (entry.type === 'add') {
+            historicalScores[entry.memberId] += entry.points;
+        } else {
+            historicalScores[entry.memberId] -= entry.points;
+        }
+    });
+    
+    // Encontrar el líder histórico
+    let historicalLeader = null;
+    let maxHistoricalScore = -Infinity;
+    
+    Object.keys(historicalScores).forEach(memberId => {
+        if (historicalScores[memberId] > maxHistoricalScore) {
+            maxHistoricalScore = historicalScores[memberId];
+            historicalLeader = memberId;
+        }
+    });
+    
+    return historicalLeader ? teamMembers.find(m => m.id === historicalLeader) : null;
+}
+
+// Función para actualizar líderes
+function updateLeaders() {
+    // Líder actual (el que tiene más puntos actualmente)
+    const currentLeader = teamMembers.reduce((max, member) => 
+        member.score > max.score ? member : max, teamMembers[0]);
+    
+    // Líder del mes
+    const monthlyLeader = calculateMonthlyLeader();
+    
+    // Líder histórico
+    const historicalLeader = calculateHistoricalLeader();
+    
+    // Actualizar elementos en el DOM
+    document.getElementById('current-leader-name').textContent = currentLeader ? currentLeader.name : '-';
+    document.getElementById('monthly-leader-name').textContent = monthlyLeader ? monthlyLeader.name : '-';
+    document.getElementById('historical-leader-name').textContent = historicalLeader ? historicalLeader.name : '-';
+    
+    // Agregar efectos especiales si hay líderes
+    if (currentLeader) {
+        document.getElementById('current-leader-name').style.color = '#ffd700';
+    }
+    if (monthlyLeader) {
+        document.getElementById('monthly-leader-name').style.color = '#ffc107';
+    }
+    if (historicalLeader) {
+        document.getElementById('historical-leader-name').style.color = '#9c27b0';
+    }
 }
 
 console.log('🚀 RociPoints - Sistema de Puntos del Equipo');

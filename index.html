@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Score Online Latam - RociPoints</title>
+    <title>🏆 RociPoints - Sistema de Puntos del Equipo | Score Online Latam</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -11,8 +11,31 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-trophy"></i> Score Online Latam</h1>
-            <p class="subtitle">RociPoints - Sistema de Puntos del Equipo</p>
+            <h1><i class="fas fa-trophy"></i> RociPoints</h1>
+            <p class="subtitle">Sistema de Puntos del Equipo | Score Online Latam</p>
+            <div class="leaders-banner">
+                <div class="leader-card current-leader">
+                    <div class="leader-icon">👑</div>
+                    <div class="leader-info">
+                        <span class="leader-title">Líder Actual</span>
+                        <span class="leader-name" id="current-leader-name">-</span>
+                    </div>
+                </div>
+                <div class="leader-card monthly-leader">
+                    <div class="leader-icon">⭐</div>
+                    <div class="leader-info">
+                        <span class="leader-title">Líder del Mes</span>
+                        <span class="leader-name" id="monthly-leader-name">-</span>
+                    </div>
+                </div>
+                <div class="leader-card historical-leader">
+                    <div class="leader-icon">🏆</div>
+                    <div class="leader-info">
+                        <span class="leader-title">Líder Histórico</span>
+                        <span class="leader-name" id="historical-leader-name">-</span>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <!-- Panel de Estadísticas Principales -->
