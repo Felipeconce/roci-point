@@ -180,6 +180,24 @@ app.put('/api/members/reset', async (req, res) => {
     }
 });
 
+// Endpoint para resetear todo (puntos + historial)
+app.post('/api/reset-all', async (req, res) => {
+    try {
+        // Resetear puntuaciones
+        await Member.updateMany({}, { score: 0 });
+        
+        // Limpiar historial
+        await History.deleteMany({});
+        
+        res.json({ 
+            success: true, 
+            message: 'Puntuaciones e historial reiniciados completamente' 
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al reiniciar datos' });
+    }
+});
+
 app.put('/api/settings', async (req, res) => {
     try {
         const { defaultAddPoints, defaultSubtractPoints, autoSave, showNotifications } = req.body;

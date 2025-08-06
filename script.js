@@ -842,6 +842,42 @@ function importData() {
 }
 */
 
+// Función para mostrar/ocultar botón de reset (modo administrador)
+function toggleResetButton() {
+    const resetButton = document.getElementById('reset-button');
+    if (resetButton.style.display === 'none') {
+        resetButton.style.display = 'flex';
+        showNotification('Modo administrador activado', 'info');
+    } else {
+        resetButton.style.display = 'none';
+        showNotification('Modo administrador desactivado', 'info');
+    }
+}
+
+// Función para resetear todos los datos
+async function resetAllData() {
+    if (confirm('¿Estás seguro de que quieres resetear todos los puntos y el historial? Esta acción no se puede deshacer.')) {
+        try {
+            const response = await fetch('/api/reset-all', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            if (response.ok) {
+                showNotification('Datos reseteados exitosamente', 'success');
+                // Recargar la página para mostrar los cambios
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            } else {
+                showNotification('Error al resetear datos', 'error');
+            }
+        } catch (error) {
+            showNotification('Error de conexión', 'error');
+        }
+    }
+}
+
 // Función para mostrar notificaciones
 function showNotification(message, type = 'info') {
     // Remover notificaciones existentes
@@ -1271,5 +1307,13 @@ function updateDisplay() {
     // Actualizar líderes
     updateLeaders();
 }
+
+// Evento de teclado para activar modo administrador (Ctrl + Shift + R)
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.shiftKey && event.key === 'R') {
+        event.preventDefault();
+        toggleResetButton();
+    }
+});
 
  
