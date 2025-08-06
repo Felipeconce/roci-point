@@ -38,29 +38,7 @@
             </div>
         </header>
 
-        <!-- Panel de Estadísticas Principales -->
-        <div class="stats-panel">
-            <div class="stat-card">
-                <i class="fas fa-users"></i>
-                <span class="stat-value" id="total-members">5</span>
-                <span class="stat-label">Miembros</span>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-star"></i>
-                <span class="stat-value" id="total-points">0</span>
-                <span class="stat-label">Total Puntos</span>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-chart-line"></i>
-                <span class="stat-value" id="average-points">0</span>
-                <span class="stat-label">Promedio</span>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-crown"></i>
-                <span class="stat-value" id="current-leader">-</span>
-                <span class="stat-label">Líder</span>
-            </div>
-        </div>
+
 
         <!-- Miembros del Equipo -->
         <div class="members-container">
@@ -190,31 +168,7 @@
             </div>
         </div>
 
-        <!-- Controles -->
-        <div class="controls">
-            <div class="control-group">
-                <button class="btn btn-reset" onclick="resetScores()">
-                    <i class="fas fa-undo"></i> Reiniciar
-                </button>
-                <button class="btn btn-export" onclick="exportData()">
-                    <i class="fas fa-download"></i> Exportar Datos
-                </button>
-                <button class="btn btn-import" onclick="importData()">
-                    <i class="fas fa-upload"></i> Importar Datos
-                </button>
-            </div>
-            <div class="control-group">
-                <button class="btn btn-stats" onclick="toggleStats()">
-                    <i class="fas fa-chart-bar"></i> Estadísticas Detalladas
-                </button>
-                <button class="btn btn-settings" onclick="toggleSettings()">
-                    <i class="fas fa-cog"></i> Configuración
-                </button>
-                <button class="btn btn-history" onclick="toggleHistory()">
-                    <i class="fas fa-history"></i> Historial
-                </button>
-            </div>
-        </div>
+
 
         <!-- Modal de Autenticación -->
         <div class="auth-modal" id="auth-modal">
@@ -288,78 +242,7 @@
             </div>
         </div>
 
-        <!-- Panel de Configuración -->
-        <div class="settings-panel" id="settings-panel">
-            <div class="settings-content">
-                <h3><i class="fas fa-cog"></i> Configuración</h3>
-                <div class="setting-group">
-                    <label for="default-add-points">Puntos por defecto (sumar):</label>
-                    <input type="number" id="default-add-points" value="1" min="1" max="10">
-                </div>
-                <div class="setting-group">
-                    <label for="default-subtract-points">Puntos por defecto (restar):</label>
-                    <input type="number" id="default-subtract-points" value="1" min="1" max="10">
-                </div>
-                <div class="setting-group">
-                    <label>
-                        <input type="checkbox" id="auto-save" checked>
-                        Guardado automático
-                    </label>
-                </div>
-                <div class="setting-group">
-                    <label>
-                        <input type="checkbox" id="show-notifications" checked>
-                        Mostrar notificaciones
-                    </label>
-                </div>
-                <button class="btn btn-save" onclick="saveSettings()">
-                    <i class="fas fa-save"></i> Guardar Configuración
-                </button>
-            </div>
-        </div>
 
-        <!-- Panel de Estadísticas Detalladas -->
-        <div class="detailed-stats-panel" id="detailed-stats-panel">
-            <div class="stats-content">
-                <h3><i class="fas fa-chart-bar"></i> Estadísticas Detalladas</h3>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <h4>Actividad del Día</h4>
-                        <p id="today-activity">0 cambios</p>
-                    </div>
-                    <div class="stat-item">
-                        <h4>Mejor Racha</h4>
-                        <p id="best-streak">0 puntos</p>
-                    </div>
-                    <div class="stat-item">
-                        <h4>Total Cambios</h4>
-                        <p id="total-changes">0</p>
-                    </div>
-                    <div class="stat-item">
-                        <h4>Promedio por Cambio</h4>
-                        <p id="avg-per-change">0</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Panel de Historial -->
-        <div class="history-panel" id="history-panel">
-            <div class="history-content">
-                <h3><i class="fas fa-history"></i> Historial de Cambios</h3>
-                <div class="history-controls">
-                    <button class="btn btn-filter active" onclick="filterHistory('all')">Todos</button>
-                    <button class="btn btn-filter" onclick="filterHistory('add')">Solo Sumas</button>
-                    <button class="btn btn-filter" onclick="filterHistory('subtract')">Solo Restas</button>
-                    <button class="btn btn-clear-history" onclick="clearHistory()">
-                        <i class="fas fa-trash"></i> Limpiar Historial
-                    </button>
-                </div>
-                <div class="history-list" id="history-list">
-                    <!-- El historial se generará dinámicamente -->
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Canvas para efectos wow -->

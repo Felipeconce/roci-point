@@ -47,7 +47,8 @@ header h1 i {
     font-weight: 300;
 }
 
-/* Panel de Estadísticas Principales */
+/* Panel de Estadísticas Principales - REMOVIDO */
+/*
 .stats-panel {
     display: flex;
     justify-content: space-between;
@@ -110,6 +111,7 @@ header h1 i {
     color: rgba(255, 255, 255, 0.8);
     font-weight: 400;
 }
+*/
 
 /* Contenedor de Miembros */
 .members-container {
@@ -603,7 +605,8 @@ header h1 i {
     display: none;
 }
 
-/* Controles */
+/* Controles - REMOVIDOS */
+/*
 .controls {
     display: flex;
     flex-direction: column;
@@ -643,7 +646,7 @@ header h1 i {
 }
 
 .btn-settings {
-    background: linear-gradient(135deg, #ff9f43, #ee5a24);
+    background: linear-gradient(135deg, #ff9ff43, #ee5a24);
     color: white;
     box-shadow: 0 4px 15px rgba(255, 159, 67, 0.4);
 }
@@ -653,8 +656,10 @@ header h1 i {
     color: white;
     box-shadow: 0 4px 15px rgba(165, 94, 234, 0.4);
 }
+*/
 
-/* Paneles */
+/* Paneles - REMOVIDOS */
+/*
 .settings-panel,
 .detailed-stats-panel,
 .history-panel {
@@ -667,6 +672,7 @@ header h1 i {
     border: 1px solid rgba(255, 255, 255, 0.2);
     animation: slideIn 0.3s ease;
 }
+*/
 
 @keyframes slideIn {
     from {
@@ -679,6 +685,8 @@ header h1 i {
     }
 }
 
+/* Configuración y Estadísticas Detalladas - REMOVIDAS */
+/*
 .settings-content h3,
 .stats-content h3,
 .history-content h3 {
@@ -750,8 +758,10 @@ header h1 i {
     font-size: 1.5rem;
     font-weight: 700;
 }
+*/
 
-/* Historial */
+/* Historial - CONTROLES REMOVIDOS */
+/*
 .history-controls {
     display: flex;
     gap: 10px;
@@ -776,7 +786,10 @@ header h1 i {
     background: linear-gradient(135deg, #ff6b6b, #ee5a52);
     color: white;
 }
+*/
 
+/* Historial - LISTA REMOVIDA */
+/*
 .history-list {
     max-height: 400px;
     overflow-y: auto;
@@ -814,6 +827,7 @@ header h1 i {
     color: #ffd700;
     font-weight: 700;
 }
+*/
 
 /* Notificaciones */
 .notification {
@@ -967,7 +981,7 @@ header h1 i {
         font-size: 2rem;
     }
     
-    .stats-panel {
+    /* .stats-panel {
         flex-direction: column;
     }
     
@@ -989,7 +1003,7 @@ header h1 i {
     
     .history-controls {
         flex-direction: column;
-    }
+    } */
     
     .comment-modal-content,
     .member-history-content {

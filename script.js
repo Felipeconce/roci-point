@@ -57,14 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Atajos de teclado
     document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.key === 's') {
-            e.preventDefault();
-            toggleStats();
-        }
-        if (e.ctrlKey && e.key === 'o') {
-            e.preventDefault();
-            toggleSettings();
-        }
         // ESC para cerrar modales
         if (e.key === 'Escape') {
             closeCommentModal();
@@ -94,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     console.log('🎮 Score Online Latam - RociPoints iniciado');
-    console.log('📊 Atajos de teclado: Ctrl+S (Estadísticas), Ctrl+O (Configuración), ESC (Cerrar modales)');
+    console.log('📊 Atajo de teclado: ESC (Cerrar modales)');
     console.log('🗄️ Conectado a MongoDB via API');
 });
 
@@ -286,8 +278,6 @@ async function addPoints(memberId, points = 1, comment = '') {
                 
                 // Actualizar display
                 updateDisplay();
-                updateStats();
-                updateDetailedStats();
                 updateRankings();
                 updateLeaders();
                 
@@ -345,8 +335,6 @@ async function subtractPoints(memberId, points = 1, comment = '') {
                 
                 // Actualizar display
                 updateDisplay();
-                updateStats();
-                updateDetailedStats();
                 updateRankings();
                 updateLeaders();
                 
@@ -427,6 +415,8 @@ function updateDisplay() {
 }
 
 // Función para actualizar estadísticas principales
+// Función comentada - Panel de estadísticas removido
+/*
 function updateStats() {
     const totalPoints = teamMembers.reduce((sum, member) => sum + member.score, 0);
     const averagePoints = teamMembers.length > 0 ? Math.round(totalPoints / teamMembers.length) : 0;
@@ -440,7 +430,10 @@ function updateStats() {
     document.getElementById('average-points').textContent = averagePoints;
     document.getElementById('current-leader').textContent = leader ? leader.name : '-';
 }
+*/
 
+// Función comentada - Panel de estadísticas detalladas removido
+/*
 // Función para actualizar estadísticas detalladas
 function updateDetailedStats() {
     const today = new Date().toDateString();
@@ -470,6 +463,7 @@ function updateDetailedStats() {
     document.getElementById('total-changes').textContent = totalChanges;
     document.getElementById('avg-per-change').textContent = avgPerChange;
 }
+*/
 
 // Función para actualizar rankings
 function updateRankings() {
@@ -522,8 +516,6 @@ async function resetScores() {
                 });
                 
                 updateDisplay();
-                updateStats();
-                updateDetailedStats();
                 updateRankings();
                 
                 if (settings.showNotifications) {
@@ -576,6 +568,8 @@ function closeMemberHistoryModal() {
     modal.style.display = 'none';
 }
 
+// Funciones comentadas - Paneles removidos
+/*
 // Función para alternar panel de estadísticas
 function toggleStats() {
     const statsPanel = document.getElementById('detailed-stats-panel');
@@ -621,6 +615,7 @@ function toggleHistory() {
         updateHistoryDisplay();
     }
 }
+*/
 
 // Función para actualizar display del historial
 function updateHistoryDisplay(filter = 'all') {
@@ -663,6 +658,8 @@ function filterHistory(filter) {
     updateHistoryDisplay(filter);
 }
 
+// Función comentada - Botón de limpiar historial removido
+/*
 // Función para limpiar historial
 async function clearHistory() {
     if (confirm('¿Estás seguro de que quieres limpiar todo el historial?')) {
@@ -687,7 +684,10 @@ async function clearHistory() {
         }
     }
 }
+*/
 
+// Función comentada - Panel de configuración removido
+/*
 // Función para guardar configuración
 async function saveSettings() {
     settings.defaultAddPoints = parseInt(document.getElementById('default-add-points').value) || 1;
@@ -718,7 +718,10 @@ async function saveSettings() {
     
     toggleSettings();
 }
+*/
 
+// Función comentada - Panel de configuración removido
+/*
 // Función para cargar configuración
 function loadSettings() {
     document.getElementById('default-add-points').value = settings.defaultAddPoints;
@@ -726,7 +729,10 @@ function loadSettings() {
     document.getElementById('auto-save').checked = settings.autoSave;
     document.getElementById('show-notifications').checked = settings.showNotifications;
 }
+*/
 
+// Función comentada - Botón de exportar datos removido
+/*
 // Función para exportar datos
 function exportData() {
     // Convertir el array a objeto para compatibilidad
@@ -756,7 +762,10 @@ function exportData() {
         showNotification('Datos exportados correctamente', 'success');
     }
 }
+*/
 
+// Función comentada - Botón de importar datos removido
+/*
 // Función para importar datos
 function importData() {
     const input = document.createElement('input');
@@ -812,6 +821,7 @@ function importData() {
     
     input.click();
 }
+*/
 
 // Función para mostrar notificaciones
 function showNotification(message, type = 'info') {
@@ -876,11 +886,8 @@ async function loadDataFromAPI() {
         
         // Actualizar la interfaz
         updateDisplay();
-        updateStats();
-        updateDetailedStats();
         updateRankings();
         updateLeaders();
-        updateHistoryDisplay();
         
         console.log('✅ Todos los datos cargados correctamente');
         
