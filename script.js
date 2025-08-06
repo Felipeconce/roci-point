@@ -25,11 +25,11 @@ let currentCommentPoints = 0;
 // Variables para el sistema de autenticación
 let currentUser = null;
 let userCredentials = {
-    rocio: { name: 'Rocío', password: 'nueva_clave_rocio', color: '#e74c3c' },
-    javiera: { name: 'Javiera', password: 'nueva_clave_javiera', color: '#9b59b6' },
-    'juan-felipe': { name: 'Juan Felipe', password: 'nueva_clave_juan', color: '#3498db' },
-    daniel: { name: 'Daniel', password: 'nueva_clave_daniel', color: '#f39c12' },
-    alvaro: { name: 'Alvaro', password: 'nueva_clave_alvaro', color: '#27ae60' }
+    rocio: { name: 'Rocío', password: 'rocio987', color: '#e74c3c' },
+    javiera: { name: 'Javiera', password: 'javiera321', color: '#9b59b6' },
+    'juan-felipe': { name: 'Juan Felipe', password: 'juan123', color: '#3498db' },
+    daniel: { name: 'Daniel', password: 'daniel654', color: '#f39c12' },
+    alvaro: { name: 'Alvaro', password: 'alvaro000', color: '#27ae60' }
 };
 
 // Wow effects variables
@@ -38,6 +38,12 @@ let flameParticles = [];
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
+    
+    // Verificar elementos del DOM
+    const authModal = document.getElementById('auth-modal');
+    const commentModal = document.getElementById('comment-modal');
+    const memberHistoryModal = document.getElementById('member-history-modal');
+    
     // Inicializar canvas para efectos wow
     const confettiCanvas = document.getElementById('confetti-canvas');
     const flameCanvas = document.getElementById('flame-canvas');
@@ -84,15 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
             authenticateUser();
         }
     });
-    
-    console.log('🎮 Score Online Latam - RociPoints iniciado');
-    console.log('📊 Atajo de teclado: ESC (Cerrar modales)');
-    console.log('🗄️ Conectado a MongoDB via API');
 });
 
 // Función para mostrar modal de autenticación
 function showAuthModal(memberId, points) {
-    console.log('showAuthModal llamado con:', memberId, points);
     currentCommentMember = memberId;
     currentCommentPoints = points;
     
@@ -101,15 +102,25 @@ function showAuthModal(memberId, points) {
     const pointsChangeSpan = document.getElementById('auth-points-change');
     
     const member = teamMembers.find(m => m.id === memberId);
+    
     if (!member) {
-        console.error('Miembro no encontrado en showAuthModal:', memberId);
         showNotification('Error: Miembro no encontrado', 'error');
         return;
     }
     
     memberNameSpan.textContent = member.name;
     pointsChangeSpan.textContent = points > 0 ? `+${points} puntos` : `${points} puntos`;
-    pointsChangeSpan.style.color = points > 0 ? '#4ecdc4' : '#ff6b6b';
+    
+    // Aplicar colores y estilos según el tipo de puntos
+    if (points > 0) {
+        pointsChangeSpan.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        pointsChangeSpan.style.color = 'white';
+        pointsChangeSpan.style.border = '2px solid #10b981';
+    } else {
+        pointsChangeSpan.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+        pointsChangeSpan.style.color = 'white';
+        pointsChangeSpan.style.border = '2px solid #ef4444';
+    }
     
     // Limpiar campos
     document.getElementById('auth-username').value = '';
@@ -125,34 +136,30 @@ function closeAuthModal() {
     modal.style.display = 'none';
     currentCommentMember = null;
     currentCommentPoints = 0;
-    currentUser = null;
+    // NO resetear currentUser aquí
 }
 
 // Función para autenticar usuario
 function authenticateUser() {
     const username = document.getElementById('auth-username').value.trim();
     const password = document.getElementById('auth-password').value.trim();
-    
-    console.log('authenticateUser llamado con:', username, password);
-    console.log('currentCommentMember:', currentCommentMember);
-    console.log('currentCommentPoints:', currentCommentPoints);
-    
+
     if (!username || !password) {
         showNotification('Debes ingresar usuario y contraseña', 'error');
         return;
     }
-    
+
     const user = userCredentials[username];
+
+    // Verificar si el usuario existe y la contraseña es correcta
     if (user && user.password === password) {
         currentUser = user;
-        
+
         // Guardar los valores antes de cerrar el modal
         const memberId = currentCommentMember;
         const points = currentCommentPoints;
-        
+
         closeAuthModal();
-        
-        console.log('Llamando a showCommentModal con:', memberId, points);
         showCommentModal(memberId, points);
     } else {
         showNotification('Usuario o contraseña incorrectos', 'error');
@@ -163,11 +170,8 @@ function authenticateUser() {
 
 // Función para mostrar modal de comentario
 function showCommentModal(memberId, points) {
-    console.log('showCommentModal llamado con:', memberId, points);
-    
     const member = teamMembers.find(m => m.id === memberId);
     if (!member) {
-        console.error('Miembro no encontrado:', memberId);
         showNotification('Error: Miembro no encontrado', 'error');
         return;
     }
@@ -175,9 +179,6 @@ function showCommentModal(memberId, points) {
     // Establecer las variables globales
     currentCommentMember = memberId;
     currentCommentPoints = points;
-    
-    console.log('Variables establecidas - currentCommentMember:', currentCommentMember);
-    console.log('Variables establecidas - currentCommentPoints:', currentCommentPoints);
     
     const modal = document.getElementById('comment-modal');
     const memberNameSpan = document.getElementById('comment-member-name');
@@ -209,16 +210,13 @@ function closeCommentModal() {
     modal.style.display = 'none';
     currentCommentMember = null;
     currentCommentPoints = 0;
+    // Resetear currentUser solo después de procesar los puntos
+    // currentUser = null; // Comentado para mantener el usuario durante el proceso
 }
 
 // Función para confirmar cambio de puntos
 function confirmPointsChange() {
     const commentText = document.getElementById('comment-text').value.trim();
-    
-    console.log('confirmPointsChange llamado');
-    console.log('commentText:', commentText);
-    console.log('currentCommentMember:', currentCommentMember);
-    console.log('currentCommentPoints:', currentCommentPoints);
     
     if (!commentText) {
         showNotification('Debes escribir un comentario para justificar los puntos', 'error');
@@ -228,30 +226,30 @@ function confirmPointsChange() {
     // Guardar los valores antes de cerrar el modal
     const memberId = currentCommentMember;
     const points = currentCommentPoints;
-    
-    console.log('Valores guardados - memberId:', memberId, 'points:', points);
+    const user = currentUser; // Guardar el usuario actual
     
     // Cerrar el modal después de guardar los valores
     closeCommentModal();
     
-    console.log('Llamando a addPoints/subtractPoints con:', memberId, points, commentText);
-    
     if (points > 0) {
-        addPoints(memberId, points, commentText);
+        addPoints(memberId, points, commentText, user);
     } else {
-        subtractPoints(memberId, Math.abs(points), commentText);
+        subtractPoints(memberId, Math.abs(points), commentText, user);
     }
 }
 
 // Función para sumar puntos
-async function addPoints(memberId, points = 1, comment = '') {
-    console.log('addPoints llamado con:', memberId, points, comment);
-    
+async function addPoints(memberId, points = 1, comment = '', user = null) {
     const member = teamMembers.find(m => m.id === memberId);
-    console.log('member encontrado:', member);
     
     if (member) {
         try {
+            // Usar el usuario pasado como parámetro o el currentUser como fallback
+            const assignedUser = user || currentUser;
+            console.log('🔍 Debug - currentUser:', currentUser);
+            console.log('🔍 Debug - assignedUser:', assignedUser);
+            console.log('🔍 Debug - assignedBy:', assignedUser ? assignedUser.name : 'Anónimo');
+            
             const response = await fetch(`/api/members/${memberId}/points`, {
                 method: 'POST',
                 headers: {
@@ -261,8 +259,8 @@ async function addPoints(memberId, points = 1, comment = '') {
                     points: points,
                     type: 'add',
                     comment: comment,
-                    assignedBy: currentUser ? currentUser.name : 'Anónimo',
-                    assignedByColor: currentUser ? currentUser.color : '#95a5a6'
+                    assignedBy: assignedUser ? assignedUser.name : 'Anónimo',
+                    assignedByColor: assignedUser ? assignedUser.color : '#95a5a6'
                 })
             });
 
@@ -286,29 +284,31 @@ async function addPoints(memberId, points = 1, comment = '') {
                     showNotification(`+${points} puntos para ${member.name}`, 'success');
                 }
                 
-                console.log('Llamando a triggerWowEffect...');
                 triggerWowEffect('add');
             } else {
                 throw new Error('Error al actualizar puntos');
             }
         } catch (error) {
-            console.error('Error al actualizar puntos:', error);
             showNotification('Error al actualizar puntos', 'error');
         }
-    } else {
-        console.error('Miembro no encontrado en addPoints:', memberId);
+        
+        // Resetear currentUser después de procesar los puntos
+        currentUser = null;
     }
 }
 
 // Función para restar puntos
-async function subtractPoints(memberId, points = 1, comment = '') {
-    console.log('subtractPoints llamado con:', memberId, points, comment);
-    
+async function subtractPoints(memberId, points = 1, comment = '', user = null) {
     const member = teamMembers.find(m => m.id === memberId);
-    console.log('member encontrado:', member);
     
     if (member) {
         try {
+            // Usar el usuario pasado como parámetro o el currentUser como fallback
+            const assignedUser = user || currentUser;
+            console.log('🔍 Debug - currentUser:', currentUser);
+            console.log('🔍 Debug - assignedUser:', assignedUser);
+            console.log('🔍 Debug - assignedBy:', assignedUser ? assignedUser.name : 'Anónimo');
+            
             const response = await fetch(`/api/members/${memberId}/points`, {
                 method: 'POST',
                 headers: {
@@ -318,8 +318,8 @@ async function subtractPoints(memberId, points = 1, comment = '') {
                     points: points,
                     type: 'subtract',
                     comment: comment,
-                    assignedBy: currentUser ? currentUser.name : 'Anónimo',
-                    assignedByColor: currentUser ? currentUser.color : '#95a5a6'
+                    assignedBy: assignedUser ? assignedUser.name : 'Anónimo',
+                    assignedByColor: assignedUser ? assignedUser.color : '#95a5a6'
                 })
             });
 
@@ -343,17 +343,16 @@ async function subtractPoints(memberId, points = 1, comment = '') {
                     showNotification(`-${points} puntos para ${member.name}`, 'error');
                 }
                 
-                console.log('Llamando a triggerWowEffect...');
                 triggerWowEffect('subtract');
             } else {
                 throw new Error('Error al actualizar puntos');
             }
         } catch (error) {
-            console.error('Error al actualizar puntos:', error);
             showNotification('Error al actualizar puntos', 'error');
         }
-    } else {
-        console.error('Miembro no encontrado en subtractPoints:', memberId);
+        
+        // Resetear currentUser después de procesar los puntos
+        currentUser = null;
     }
 }
 
@@ -401,17 +400,34 @@ function addToHistory(memberId, points, type, comment = '') {
 
 // Función para actualizar el display
 function updateDisplay() {
-    console.log('updateDisplay llamado');
+    // Actualizar puntajes
     teamMembers.forEach(member => {
-        const memberCard = document.querySelector(`[data-member="${member.id}"]`);
-        if (memberCard) {
-            const scoreElement = memberCard.querySelector('.score');
+        const card = document.querySelector(`[data-member="${member.id}"]`);
+        if (card) {
+            const scoreElement = card.querySelector('.score');
             if (scoreElement) {
-                console.log(`Actualizando ${member.name}: ${scoreElement.textContent} -> ${member.score}`);
                 scoreElement.textContent = member.score;
+                
+                // Efecto de cambio de puntaje
+                scoreElement.style.transform = 'scale(1.2)';
+                scoreElement.style.color = member.score > 0 ? '#10b981' : member.score < 0 ? '#ef4444' : '#ffd700';
+                
+                setTimeout(() => {
+                    scoreElement.style.transform = 'scale(1)';
+                    scoreElement.style.color = '';
+                }, 300);
             }
         }
     });
+    
+    // Actualizar rankings
+    updateRankings();
+    
+    // Ordenar las tarjetas por puntaje
+    sortMemberCards();
+    
+    // Actualizar líderes
+    updateLeaders();
 }
 
 // Función para actualizar estadísticas principales
@@ -548,11 +564,14 @@ function showMemberHistory(memberId) {
     } else {
         historyList.innerHTML = memberHistory.map(entry => `
             <div class="member-history-item ${entry.type}">
-                <div class="member-history-time">${entry.timeString}</div>
-                <div class="member-history-text">${entry.memberName}</div>
-                <div class="member-history-points">${entry.points > 0 ? '+' : ''}${entry.points} puntos</div>
-                <div class="member-history-assigned" style="color: ${entry.assignedByColor}">
-                    <i class="fas fa-user"></i> ${entry.assignedBy}
+                <div class="member-history-header">
+                    <div>
+                        <span class="member-history-time">${entry.timeString}</span>
+                        <span class="member-history-points">${entry.points > 0 ? '+' : ''}${entry.points} puntos</span>
+                    </div>
+                    <div class="member-history-assigned" style="color: ${entry.assignedByColor}">
+                        <i class="fas fa-user"></i> ${entry.assignedBy}
+                    </div>
                 </div>
                 ${entry.comment ? `<div class="member-history-comment">"${entry.comment}"</div>` : ''}
             </div>
@@ -866,14 +885,12 @@ async function loadDataFromAPI() {
         if (membersResponse.ok) {
             const membersData = await membersResponse.json();
             teamMembers = membersData;
-            console.log('✅ Miembros cargados:', teamMembers.length);
         }
         
         // Cargar historial
         const historyResponse = await fetch('/api/history');
         if (historyResponse.ok) {
             history = await historyResponse.json();
-            console.log('✅ Historial cargado:', history.length, 'entradas');
         }
         
         // Cargar configuración
@@ -881,7 +898,6 @@ async function loadDataFromAPI() {
         if (settingsResponse.ok) {
             const settingsData = await settingsResponse.json();
             settings = settingsData;
-            console.log('✅ Configuración cargada');
         }
         
         // Actualizar la interfaz
@@ -889,17 +905,13 @@ async function loadDataFromAPI() {
         updateRankings();
         updateLeaders();
         
-        console.log('✅ Todos los datos cargados correctamente');
-        
     } catch (error) {
-        console.error('❌ Error al cargar datos desde la API:', error);
         showNotification('Error al cargar datos desde el servidor', 'error');
     }
 }
 
 // Add wow effects functions
 function createConfetti() {
-    console.log('createConfetti llamado');
     const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd'];
     const confettiCount = 150;
     
@@ -919,7 +931,6 @@ function createConfetti() {
         confettiParticles.push(particle);
     }
     
-    console.log('Confeti creado, iniciando animación...');
     animateConfetti();
 }
 
@@ -980,7 +991,6 @@ function createFlames() {
         flameParticles.push(particle);
     }
     
-    console.log('Llamas creadas, iniciando animación...');
     animateFlames();
 }
 
@@ -1037,14 +1047,10 @@ function animateFlames() {
 }
 
 function triggerWowEffect(type) {
-    console.log('triggerWowEffect llamado con tipo:', type);
-    
     if (type === 'add') {
-        console.log('Creando confeti...');
         createConfetti();
         showNotification('¡Puntos agregados! 🎉', 'success');
     } else if (type === 'subtract') {
-        console.log('Creando llamas...');
         createFlames();
         showNotification('¡Puntos restados! 🔥', 'warning');
     }
@@ -1055,7 +1061,6 @@ function clearLocalStorage() {
     localStorage.removeItem('rociPointsScores');
     localStorage.removeItem('rociPointsHistory');
     localStorage.removeItem('rociPointsSettings');
-    console.log('localStorage limpiado');
     location.reload();
 }
 
@@ -1144,15 +1149,127 @@ function updateLeaders() {
     // const monthlyLeader = calculateMonthlyLeader(); // Removido
     const historicalLeader = calculateHistoricalLeader();
     
-    document.getElementById('current-leader-name').textContent = currentLeader || '-';
-    // document.getElementById('monthly-leader-name').textContent = monthlyLeader || '-'; // Removido
-    document.getElementById('historical-leader-name').textContent = historicalLeader || '-';
+    // Actualizar líder actual
+    const currentLeaderElement = document.getElementById('current-leader-name');
+    if (currentLeader) {
+        currentLeaderElement.textContent = currentLeader;
+        currentLeaderElement.style.color = '#1a202c';
+    } else {
+        currentLeaderElement.textContent = 'Sin datos';
+        currentLeaderElement.style.color = '#6b7280';
+    }
+    
+    // Actualizar líder histórico
+    const historicalLeaderElement = document.getElementById('historical-leader-name');
+    if (historicalLeader && history.length > 0) {
+        historicalLeaderElement.textContent = historicalLeader;
+        historicalLeaderElement.style.color = '#1a202c';
+    } else {
+        historicalLeaderElement.textContent = 'Sin historial';
+        historicalLeaderElement.style.color = '#6b7280';
+    }
 }
 
-console.log('🚀 RociPoints - Sistema de Puntos del Equipo');
-console.log('👥 Miembros: Rocío, Javiera, Juan Felipe, Daniel, Alvaro');
-console.log('🎯 Puntos disponibles: -5, -3, -1, +1, +3, +5');
-console.log('💾 Datos guardados automáticamente en localStorage');
-console.log('📊 Estadísticas en tiempo real');
-console.log('🎨 Diseño moderno y responsivo');
-console.log('🔧 Para limpiar localStorage: clearLocalStorage()'); 
+// Función para ordenar las tarjetas por puntaje
+function sortMemberCards() {
+    const membersContainer = document.querySelector('.members-container');
+    const memberCards = Array.from(membersContainer.children);
+    
+    // Ordenar las tarjetas por puntaje (de mayor a menor)
+    memberCards.sort((a, b) => {
+        const scoreA = parseInt(a.querySelector('.score').textContent);
+        const scoreB = parseInt(b.querySelector('.score').textContent);
+        return scoreB - scoreA; // Orden descendente
+    });
+    
+    // Aplicar clase de reordenamiento
+    memberCards.forEach(card => {
+        card.classList.add('reordering');
+    });
+    
+    // Fase 1: Mezcla - mover todas las tarjetas a posiciones aleatorias
+    memberCards.forEach((card, index) => {
+        const randomX = (Math.random() - 0.5) * 300; // Movimiento aleatorio horizontal más amplio
+        const randomY = (Math.random() - 0.5) * 150; // Movimiento aleatorio vertical
+        const randomScale = 0.8 + Math.random() * 0.4; // Escala aleatoria entre 0.8 y 1.2
+        const randomRotation = (Math.random() - 0.5) * 20; // Rotación aleatoria
+        
+        card.style.transform = `translate(${randomX}px, ${randomY}px) scale(${randomScale}) rotate(${randomRotation}deg)`;
+        card.style.zIndex = Math.floor(Math.random() * 1000); // Z-index aleatorio para superposición
+    });
+    
+    // Fase 2: Reorganización - después de la mezcla, reorganizar en el orden correcto
+    setTimeout(() => {
+        memberCards.forEach((card, index) => {
+            setTimeout(() => {
+                // Mover a la posición final (ordenada)
+                card.style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)';
+                card.style.zIndex = 1;
+                
+                // Reordenar en el DOM
+                membersContainer.appendChild(card);
+                
+                // Agregar clase de líder al primer lugar
+                memberCards.forEach(c => c.classList.remove('leader'));
+                if (index === 0) {
+                    card.classList.add('leader');
+                }
+                
+            }, index * 150); // Delay escalonado para reorganización
+        });
+        
+        // Limpiar clases después de la animación
+        setTimeout(() => {
+            memberCards.forEach(card => {
+                card.classList.remove('reordering');
+                card.style.transform = '';
+                card.style.zIndex = '';
+            });
+        }, 2000);
+        
+    }, 1000); // Tiempo de mezcla
+}
+
+// Función para actualizar el display con ordenamiento
+function updateDisplay() {
+    // Actualizar puntajes con efectos
+    teamMembers.forEach(member => {
+        const card = document.querySelector(`[data-member="${member.id}"]`);
+        if (card) {
+            const scoreElement = card.querySelector('.score');
+            if (scoreElement) {
+                const oldScore = parseInt(scoreElement.textContent);
+                const newScore = member.score;
+                
+                // Efecto de cambio de puntaje más largo
+                scoreElement.classList.add('changing');
+                scoreElement.textContent = newScore;
+                
+                // Color temporal según el cambio
+                if (newScore > oldScore) {
+                    scoreElement.style.color = '#10b981';
+                } else if (newScore < oldScore) {
+                    scoreElement.style.color = '#ef4444';
+                }
+                
+                setTimeout(() => {
+                    scoreElement.classList.remove('changing');
+                    scoreElement.style.color = '';
+                }, 1500); // Efecto más largo
+            }
+        }
+    });
+    
+    // Actualizar rankings
+    updateRankings();
+    
+    // Ordenar las tarjetas por puntaje con delay más largo
+    setTimeout(() => {
+        sortMemberCards();
+    }, 1500); // Delay más largo antes de ordenar
+    
+    // Actualizar líderes
+    updateLeaders();
+}
+
+ 

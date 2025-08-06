@@ -135,6 +135,8 @@ app.post('/api/members/:id/points', async (req, res) => {
     try {
         const { id } = req.params;
         const { points, type, comment, assignedBy, assignedByColor } = req.body;
+        
+        console.log('🔍 Debug - Servidor recibió:', { assignedBy, assignedByColor });
 
         const member = await Member.findOne({ id });
         if (!member) {
