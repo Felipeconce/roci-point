@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Online Latam - RociPoints</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-trophy"></i> Score Online Latam</h1>
+            <p class="subtitle">RociPoints - Sistema de Puntos del Equipo</p>
+        </header>
+
+        <!-- Panel de Estadísticas Principales -->
+        <div class="stats-panel">
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <span class="stat-value" id="total-members">5</span>
+                <span class="stat-label">Miembros</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-star"></i>
+                <span class="stat-value" id="total-points">0</span>
+                <span class="stat-label">Total Puntos</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-chart-line"></i>
+                <span class="stat-value" id="average-points">0</span>
+                <span class="stat-label">Promedio</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-crown"></i>
+                <span class="stat-value" id="current-leader">-</span>
+                <span class="stat-label">Líder</span>
+            </div>
+        </div>
+
+        <!-- Miembros del Equipo -->
+        <div class="members-container">
+            <div class="member-card" data-member="rocio">
+                <div class="member-info">
+                    <div class="avatar">
+                        <img src="img/rocio.png" alt="Rocío" onerror="this.src='https://via.placeholder.com/80x80/ff6b6b/ffffff?text=R'">
+                    </div>
+                    <h3>Rocío</h3>
+                    <div class="score">0</div>
+                    <div class="member-stats">
+                        <span class="rank-badge">#1</span>
+                        <span class="change-indicator"></span>
+                    </div>
+                </div>
+                                        <div class="actions">
+                            <button class="btn btn-minus" onclick="showAuthModal('rocio', -5)">-5</button>
+                            <button class="btn btn-minus" onclick="showAuthModal('rocio', -3)">-3</button>
+                            <button class="btn btn-minus" onclick="showAuthModal('rocio', -1)">-1</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('rocio', 1)">+1</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('rocio', 3)">+3</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('rocio', 5)">+5</button>
+                        </div>
+                <button class="btn btn-history-member" onclick="showMemberHistory('rocio')">
+                    <i class="fas fa-history"></i> Ver Historial
+                </button>
+            </div>
+
+            <div class="member-card" data-member="javiera">
+                <div class="member-info">
+                    <div class="avatar">
+                        <img src="img/javiera.png" alt="Javiera" onerror="this.src='https://via.placeholder.com/80x80/4ecdc4/ffffff?text=J'">
+                    </div>
+                    <h3>Javiera</h3>
+                    <div class="score">0</div>
+                    <div class="member-stats">
+                        <span class="rank-badge">#2</span>
+                        <span class="change-indicator"></span>
+                    </div>
+                </div>
+                                        <div class="actions">
+                            <button class="btn btn-minus" onclick="showAuthModal('javiera', -5)">-5</button>
+                            <button class="btn btn-minus" onclick="showAuthModal('javiera', -3)">-3</button>
+                            <button class="btn btn-minus" onclick="showAuthModal('javiera', -1)">-1</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('javiera', 1)">+1</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('javiera', 3)">+3</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('javiera', 5)">+5</button>
+                        </div>
+                <button class="btn btn-history-member" onclick="showMemberHistory('javiera')">
+                    <i class="fas fa-history"></i> Ver Historial
+                </button>
+            </div>
+
+            <div class="member-card" data-member="juan-felipe">
+                <div class="member-info">
+                    <div class="avatar">
+                        <img src="img/juan.png" alt="Juan Felipe" onerror="this.src='https://via.placeholder.com/80x80/54a0ff/ffffff?text=JF'">
+                    </div>
+                    <h3>Juan Felipe</h3>
+                    <div class="score">0</div>
+                    <div class="member-stats">
+                        <span class="rank-badge">#3</span>
+                        <span class="change-indicator"></span>
+                    </div>
+                </div>
+                                        <div class="actions">
+                            <button class="btn btn-minus" onclick="showAuthModal('juan-felipe', -5)">-5</button>
+                            <button class="btn btn-minus" onclick="showAuthModal('juan-felipe', -3)">-3</button>
+                            <button class="btn btn-minus" onclick="showAuthModal('juan-felipe', -1)">-1</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('juan-felipe', 1)">+1</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('juan-felipe', 3)">+3</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('juan-felipe', 5)">+5</button>
+                        </div>
+                <button class="btn btn-history-member" onclick="showMemberHistory('juan-felipe')">
+                    <i class="fas fa-history"></i> Ver Historial
+                </button>
+            </div>
+
+            <div class="member-card" data-member="daniel">
+                <div class="member-info">
+                    <div class="avatar">
+                        <img src="img/daniel.png" alt="Daniel" onerror="this.src='https://via.placeholder.com/80x80/ff9f43/ffffff?text=D'">
+                    </div>
+                    <h3>Daniel</h3>
+                    <div class="score">0</div>
+                    <div class="member-stats">
+                        <span class="rank-badge">#4</span>
+                        <span class="change-indicator"></span>
+                    </div>
+                </div>
+                                        <div class="actions">
+                            <button class="btn btn-minus" onclick="showAuthModal('daniel', -5)">-5</button>
+                            <button class="btn btn-minus" onclick="showAuthModal('daniel', -3)">-3</button>
+                            <button class="btn btn-minus" onclick="showAuthModal('daniel', -1)">-1</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('daniel', 1)">+1</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('daniel', 3)">+3</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('daniel', 5)">+5</button>
+                        </div>
+                <button class="btn btn-history-member" onclick="showMemberHistory('daniel')">
+                    <i class="fas fa-history"></i> Ver Historial
+                </button>
+            </div>
+
+            <div class="member-card" data-member="alvaro">
+                <div class="member-info">
+                    <div class="avatar">
+                        <img src="img/alvaro.png" alt="Alvaro" onerror="this.src='https://via.placeholder.com/80x80/a55eea/ffffff?text=A'">
+                    </div>
+                    <h3>Alvaro</h3>
+                    <div class="score">0</div>
+                    <div class="member-stats">
+                        <span class="rank-badge">#5</span>
+                        <span class="change-indicator"></span>
+                    </div>
+                </div>
+                                        <div class="actions">
+                            <button class="btn btn-minus" onclick="showAuthModal('alvaro', -5)">-5</button>
+                            <button class="btn btn-minus" onclick="showAuthModal('alvaro', -3)">-3</button>
+                            <button class="btn btn-minus" onclick="showAuthModal('alvaro', -1)">-1</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('alvaro', 1)">+1</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('alvaro', 3)">+3</button>
+                            <button class="btn btn-plus" onclick="showAuthModal('alvaro', 5)">+5</button>
+                        </div>
+                <button class="btn btn-history-member" onclick="showMemberHistory('alvaro')">
+                    <i class="fas fa-history"></i> Ver Historial
+                </button>
+            </div>
+        </div>
+
+        <!-- Controles -->
+        <div class="controls">
+            <div class="control-group">
+                <button class="btn btn-reset" onclick="resetScores()">
+                    <i class="fas fa-undo"></i> Reiniciar
+                </button>
+                <button class="btn btn-export" onclick="exportData()">
+                    <i class="fas fa-download"></i> Exportar Datos
+                </button>
+                <button class="btn btn-import" onclick="importData()">
+                    <i class="fas fa-upload"></i> Importar Datos
+                </button>
+            </div>
+            <div class="control-group">
+                <button class="btn btn-stats" onclick="toggleStats()">
+                    <i class="fas fa-chart-bar"></i> Estadísticas Detalladas
+                </button>
+                <button class="btn btn-settings" onclick="toggleSettings()">
+                    <i class="fas fa-cog"></i> Configuración
+                </button>
+                <button class="btn btn-history" onclick="toggleHistory()">
+                    <i class="fas fa-history"></i> Historial
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal de Autenticación -->
+        <div class="auth-modal" id="auth-modal">
+            <div class="auth-modal-content">
+                <div class="auth-modal-header">
+                    <h3>Autenticación</h3>
+                    <button class="btn-close" onclick="closeAuthModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="auth-modal-body">
+                    <div class="comment-info">
+                        <span id="auth-member-name"></span>
+                        <span id="auth-points-change"></span>
+                    </div>
+                    <div class="auth-form">
+                        <label for="auth-username">Usuario:</label>
+                        <input type="text" id="auth-username" placeholder="Ingresa tu usuario">
+                        <label for="auth-password">Contraseña:</label>
+                        <input type="password" id="auth-password" placeholder="Ingresa tu contraseña">
+                    </div>
+                    <div class="auth-actions">
+                        <button class="btn btn-auth-cancel" onclick="closeAuthModal()">Cancelar</button>
+                        <button class="btn btn-auth-login" onclick="authenticateUser()">Iniciar Sesión</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Comentario -->
+        <div class="comment-modal" id="comment-modal">
+            <div class="comment-modal-content">
+                <div class="comment-modal-header">
+                    <h3 id="comment-modal-title">Justificar Puntos</h3>
+                    <button class="btn-close" onclick="closeCommentModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="comment-modal-body">
+                    <div class="comment-info">
+                        <span id="comment-member-name"></span>
+                        <span id="comment-points-change"></span>
+                        <span id="comment-user-info"></span>
+                    </div>
+                    <div class="comment-form">
+                        <label for="comment-text">Comentario (obligatorio):</label>
+                        <textarea id="comment-text" placeholder="Explica por qué se otorgan/quitan estos puntos..." required></textarea>
+                        <div class="comment-actions">
+                            <button class="btn btn-cancel" onclick="closeCommentModal()">Cancelar</button>
+                            <button class="btn btn-confirm" onclick="confirmPointsChange()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Historial del Miembro -->
+        <div class="member-history-modal" id="member-history-modal">
+            <div class="member-history-content">
+                <div class="member-history-header">
+                    <h3 id="member-history-title">Historial de <span id="member-history-name"></span></h3>
+                    <button class="btn-close" onclick="closeMemberHistoryModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="member-history-body">
+                    <div class="member-history-list" id="member-history-list">
+                        <!-- El historial se generará dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel de Configuración -->
+        <div class="settings-panel" id="settings-panel">
+            <div class="settings-content">
+                <h3><i class="fas fa-cog"></i> Configuración</h3>
+                <div class="setting-group">
+                    <label for="default-add-points">Puntos por defecto (sumar):</label>
+                    <input type="number" id="default-add-points" value="1" min="1" max="10">
+                </div>
+                <div class="setting-group">
+                    <label for="default-subtract-points">Puntos por defecto (restar):</label>
+                    <input type="number" id="default-subtract-points" value="1" min="1" max="10">
+                </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="auto-save" checked>
+                        Guardado automático
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="show-notifications" checked>
+                        Mostrar notificaciones
+                    </label>
+                </div>
+                <button class="btn btn-save" onclick="saveSettings()">
+                    <i class="fas fa-save"></i> Guardar Configuración
+                </button>
+            </div>
+        </div>
+
+        <!-- Panel de Estadísticas Detalladas -->
+        <div class="detailed-stats-panel" id="detailed-stats-panel">
+            <div class="stats-content">
+                <h3><i class="fas fa-chart-bar"></i> Estadísticas Detalladas</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h4>Actividad del Día</h4>
+                        <p id="today-activity">0 cambios</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>Mejor Racha</h4>
+                        <p id="best-streak">0 puntos</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>Total Cambios</h4>
+                        <p id="total-changes">0</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>Promedio por Cambio</h4>
+                        <p id="avg-per-change">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel de Historial -->
+        <div class="history-panel" id="history-panel">
+            <div class="history-content">
+                <h3><i class="fas fa-history"></i> Historial de Cambios</h3>
+                <div class="history-controls">
+                    <button class="btn btn-filter active" onclick="filterHistory('all')">Todos</button>
+                    <button class="btn btn-filter" onclick="filterHistory('add')">Solo Sumas</button>
+                    <button class="btn btn-filter" onclick="filterHistory('subtract')">Solo Restas</button>
+                    <button class="btn btn-clear-history" onclick="clearHistory()">
+                        <i class="fas fa-trash"></i> Limpiar Historial
+                    </button>
+                </div>
+                <div class="history-list" id="history-list">
+                    <!-- El historial se generará dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas para efectos wow -->
+    <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
+    <canvas id="flame-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html> 
